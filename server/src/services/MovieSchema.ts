@@ -1,6 +1,9 @@
 import { Movie } from "../entities/Movie";
 import { IMovie } from "../db/MovieSchema";
 import { MovieModel } from "../db";
+import { SearchCondition } from "../entities/SearchCondition";
+import { Type } from "class-transformer";
+import { ISearchResult } from "../entities/CommonTypes";
 
 export class MovieService {
     public static async add(movie: Movie): Promise<IMovie | string[]> {
@@ -35,5 +38,32 @@ export class MovieService {
 
     public static async findById(id: string): Promise<IMovie | null> {
         return await MovieModel.findById(id)
+    }
+
+    /**
+     * 查询电影
+     * @param condition page、limit、key
+     */
+    @Type(() => String)
+    public static async find(condition: SearchCondition): Promise<ISearchResult<IMovie>> {
+        // 1. 装换类型
+        const conObj = SearchCondition.transform(condition)
+        // 2. 数据验证
+        const errors = await conObj.validateThis(true)
+        if (errors.length > 0) {
+            return { data: [], count: 0, errors };
+        }
+        // 3. 查询
+        const movies = await MovieModel.find({
+            name: {
+                $regex: new RegExp(conObj.key)
+            }
+        }).skip((conObj.page - 1) * conObj.limit).limit(conObj.limit)
+        const count = await MovieModel.find({
+            name: {
+                $regex: new RegExp(conObj.key)
+            }
+        }).countDocuments();
+        return { data: movies, count, errors: [] }
     }
 }
