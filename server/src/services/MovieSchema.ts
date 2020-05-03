@@ -45,7 +45,7 @@ export class MovieService {
      * @param condition page、limit、key
      */
     @Type(() => String)
-    public static async find(condition: SearchCondition): Promise<ISearchResult<IMovie>> {
+    public static async find(condition: any): Promise<ISearchResult<IMovie>> {
         // 1. 装换类型
         const conObj = SearchCondition.transform(condition)
         // 2. 数据验证

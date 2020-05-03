@@ -1,16 +1,10 @@
-import { MovieService } from "./services/MovieSchema"
+import Express from 'express'
+import MovieRouter from './routes/MovieRoutes'
 
-const condi: any = {
-    page: 1,
-    limit: 5,
-    key: "10"
-}
+const app = Express();
 
-MovieService.find(condi).then(result => {
-    if(result.errors.length > 0){
-        console.log(result.errors)
-    }else{
-        console.log(result.data)
-    }
-    console.log("总数", result.count)
-})
+app.use(Express.json()); // 配置中间件，将请求体转化为json格式
+
+app.use("/api/movie", MovieRouter)
+
+app.listen(3000)
