@@ -14,14 +14,9 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.get('/:id', async (req, res) => {
-    try {
-        const movieId = req.params.id
-        const movie = await MovieService.findById(movieId)
-        ResponseHelper.sendData(movie, res)
-    } catch{
-        ResponseHelper.sendData(null, res)
-    }
+router.get('/', async (req, res) => {
+    const result = await MovieService.find(req.query)
+    ResponseHelper.sendPageData(result, res)
 })
 
 router.post('/', async (req, res) => {
