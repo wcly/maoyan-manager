@@ -17,5 +17,5 @@ export interface IResponsePageData<T> {
 export interface ISearchCondition {
     page?: number;
     limit?: number;
-    key?: number;
+    key?: string;
 }

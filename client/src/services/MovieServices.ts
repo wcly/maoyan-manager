@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IResponseError, IResponseData, ISearchCondition, IResponsePageData } from './CommonTYpes'
+import { IResponseError, IResponseData, ISearchCondition, IResponsePageData } from './CommonTypes'
 
 export interface IMovie {
     _id?: string;
