@@ -28,6 +28,17 @@ function mapDispatchToProps(dispatch: Dispatch<any>): IMovieTableEvents {
             dispatch(MovieAction.fetchMovies({
                 page: newPage
             }))
+        },
+        onKeyChange(key) {
+            console.log(key)
+            dispatch(MovieAction.setConditionAction({
+                key
+            }))
+        },
+        onSearch() {
+            dispatch(MovieAction.fetchMovies({
+                page: 1 
+            }))
         }
     }
 }

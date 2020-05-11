@@ -1,12 +1,13 @@
 import React from 'react'
 import { IMovieState } from '../redux/reducers/MovieReducer'
-import { Table, Switch, Button, message, Popconfirm } from 'antd'
+import { Table, Switch, Button, message, Popconfirm, Input } from 'antd'
 import { ColumnProps, TablePaginationConfig } from 'antd/lib/table'
 import { IMovie } from '../services/MovieServices'
 import defaultposterImg from '../assets/defaultposter.jpg'
 import { SwitchType } from '../services/CommonTypes'
 import { NavLink } from 'react-router-dom'
 import { PaginationConfig } from 'antd/lib/pagination'
+import { SearchOutlined } from '@ant-design/icons';
 
 export interface IMovieTableEvents {
     /**
@@ -16,11 +17,28 @@ export interface IMovieTableEvents {
     onSwitchChange: (type: SwitchType, newState: boolean, id: string) => void,
     onDelete: (id: string) => Promise<void>
     onChange: (newPage: number) => void
+    onKeyChange: (key: string) => void
+    onSearch: () => void
 }
 
 export default class extends React.Component<IMovieTableEvents & IMovieState> {
     componentDidMount() {
         this.props.onLoad?.();
+    }
+
+    private getFilterDropDown(p: object) {
+        return (
+            <div style={{ padding: 8 }}>
+                <Input style={{ width: 188, marginBottom: 8, display: 'block' }} value={this.props.condition.key} 
+                onChange={e => this.props.onKeyChange(e.target.value)} 
+                onPressEnter={this.props.onSearch}/>
+                <Button type="primary" icon={<SearchOutlined />} size="small" style={{ width: 90, marginRight: 8 }} onClick={this.props.onSearch}>查询</Button>
+                <Button size="small" style={{ width: 90 }} onClick={()=>{
+                    this.props.onKeyChange('')
+                    this.props.onSearch()
+                }}>重置</Button>
+            </div>
+        )
     }
 
     private getColumns(): ColumnProps<IMovie>[] {
@@ -29,14 +47,16 @@ export default class extends React.Component<IMovieTableEvents & IMovieState> {
             dataIndex: 'poster',
             render(poster: string) {
                 if (poster) {
-                    return <img className="table-poster" src={poster} />
+                    return <img className="table-poster" src={poster} alt='' />
                 } else {
-                    return <img className="table-poster" src={defaultposterImg} />
+                    return <img className="table-poster" src={defaultposterImg} alt='' />
                 }
             }
         }, {
             title: '名称',
             dataIndex: 'name',
+            filterDropdown: this.getFilterDropDown.bind(this),
+            filterIcon: <SearchOutlined />
         }, {
             title: '地区',
             dataIndex: 'areas',
