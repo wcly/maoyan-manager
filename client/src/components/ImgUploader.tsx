@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { IResponseData, IResponseError } from '../services/CommonTypes'
 
 interface IImgUploaderProps {
-    curImgUrl?: string
+    value?: string
     onChange: (imgUrl: string) => void
 }
 
@@ -18,7 +18,7 @@ export default class extends React.Component<IImgUploaderProps, IImgState> {
     }
 
     private getUploadContent() {
-        if (this.props.curImgUrl) {
+        if (this.props.value) {
             return null
         } else {
             return (
@@ -31,8 +31,8 @@ export default class extends React.Component<IImgUploaderProps, IImgState> {
     }
 
     private getFileList(): any[] {
-        if (this.props.curImgUrl) {
-            return [{ uid: this.props.curImgUrl, name: this.props.curImgUrl, url: this.props.curImgUrl }]
+        if (this.props.value) {
+            return [{ uid: this.props.value, name: this.props.value, url: this.props.value }]
         } else {
             return []
         }
@@ -83,7 +83,7 @@ export default class extends React.Component<IImgUploaderProps, IImgState> {
                         })
                     }}
                 >
-                    <img alt="example" style={{ width: '100%' }} src={this.props.curImgUrl} />
+                    <img alt="example" style={{ width: '100%' }} src={this.props.value} />
                 </Modal>
             </div>
 

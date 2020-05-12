@@ -16,7 +16,7 @@ export default class extends React.Component<RouteComponentProps<IParams>> {
                 this.setState({
                     img: newUrl
                 })
-            }} curImgUrl={this.state.img} />
+            }} value={this.state.img} />
         )
     }
 }
