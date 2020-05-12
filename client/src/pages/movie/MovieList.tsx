@@ -37,7 +37,7 @@ function mapDispatchToProps(dispatch: Dispatch<any>): IMovieTableEvents {
         },
         onSearch() {
             dispatch(MovieAction.fetchMovies({
-                page: 1 
+                page: 1
             }))
         }
     }

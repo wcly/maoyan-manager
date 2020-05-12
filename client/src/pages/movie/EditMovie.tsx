@@ -1,14 +1,22 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+import ImgUploader from '../../components/ImgUploader'
 
 interface IParams {
     id: string
 }
 
 export default class extends React.Component<RouteComponentProps<IParams>> {
-    render(){
+    state = {
+        img: ""
+    }
+    render() {
         return (
-        <h1>修改电影页{this.props.match.params.id}</h1>
+            <ImgUploader onChange={newUrl => {
+                this.setState({
+                    img: newUrl
+                })
+            }} curImgUrl={this.state.img} />
         )
-    }   
+    }
 }

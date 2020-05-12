@@ -105,7 +105,7 @@ export default class extends React.Component<IMovieTableEvents & IMovieState> {
             render: (id: string) => {
                 return (
                     <div>
-                        <NavLink to={"/movie/eidt/" + id} style={{ marginRight: 10 }}>
+                        <NavLink to={"/movie/edit/" + id} style={{ marginRight: 10 }}>
                             <Button type="primary" >编辑</Button>
                         </NavLink>
                         <Popconfirm title='确定要删除吗？' onConfirm={async () => {
