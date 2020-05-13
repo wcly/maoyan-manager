@@ -5,7 +5,7 @@ import { IResponseData, IResponseError } from '../services/CommonTypes'
 
 interface IImgUploaderProps {
     value?: string
-    onChange: (imgUrl: string) => void
+    onChange?: (imgUrl: string) => void
 }
 
 interface IImgState {
@@ -49,7 +49,7 @@ export default class extends React.Component<IImgUploaderProps, IImgState> {
         if (res.err) {
             message.error(res.err)
         } else {
-            this.props.onChange(res.data!)
+            this.props.onChange?.(res.data!)
         }
     }
 
@@ -64,7 +64,7 @@ export default class extends React.Component<IImgUploaderProps, IImgState> {
                     fileList={this.getFileList()}
                     customRequest={this.handleRequest.bind(this)}
                     onRemove={() => {
-                        this.props.onChange("")
+                        this.props.onChange?.("")
                     }}
                     onPreview={() => { 
                         this.setState({
