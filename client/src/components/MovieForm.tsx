@@ -7,6 +7,12 @@ import { withRouter, RouteComponentProps } from 'react-router';
 
 interface IFormProp extends RouteComponentProps {
     onSubmit: (movie: IMovie) => Promise<string>
+    movie?: IMovie
+}
+
+interface MovieFields {
+    name: any;
+    value: any
 }
 
 const AllAreas: { label: string, value: string }[] = [
@@ -33,10 +39,10 @@ class MovieForm extends React.Component<IFormProp> {
 
     handleSubmit = async (values: any) => {
         const result = await this.props.onSubmit(values as IMovie)
-        if(result){
+        if (result) {
             message.error(result)
-        }else{
-            message.success('处理成功', 1, ()=>{
+        } else {
+            message.success('处理成功', 1, () => {
                 this.props.history.push('/movie')
             })
         }
@@ -46,10 +52,23 @@ class MovieForm extends React.Component<IFormProp> {
         console.log(errors)
     }
 
+    getDefaultField = (movie: any): MovieFields[] => {
+        const result: MovieFields[] = []
+        for (const key in movie) {
+            const obj: MovieFields = {
+                name: key,
+                value: movie[key]
+            }
+            result.push(obj)
+        }
+        return result
+    }
+
     render() {
         return (
             <Form
                 {...layout}
+                fields={this.getDefaultField(this.props.movie)}
                 ref={this.formRef}
                 style={{ width: 400 }}
                 onFinish={this.handleSubmit}
